@@ -1,12 +1,14 @@
 package RSA;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 
 //Created by Baha2r
 
-public class RSA {
+public class RSA extends FileManager {
     private static BigInteger n;
     private static BigInteger d;
     private static BigInteger e;
@@ -15,6 +17,7 @@ public class RSA {
     private static ArrayList<String> detachedText;
 
     public RSA() {
+        super();
         try {
             final int N = 1024;
             final int C = 2;
@@ -64,7 +67,26 @@ public class RSA {
         return strings;
     }
 
-   public ArrayList<String> encryption(String Message) {
+    private String listToString(ArrayList<String> strings) {
+        StringBuilder builder = new StringBuilder();
+        for (String string : strings) {
+            builder.append(string);
+            builder.append(", ");
+        }
+        return builder.toString();
+    }
+
+//    private ArrayList<String> stringToList(String text) {
+//        ArrayList<String> encrypted = new ArrayList<>();
+//        String[] strings = new String[text.length()];
+//        for (int i = 0; i < text.length(); i++) {
+//            strings = text.split(", ");
+//        }
+//        Collections.addAll(encrypted, strings);
+//        return encrypted;
+//    }
+
+    public ArrayList<String> encryption(String Message) {
         try {
             BigInteger ET;
             detachedText = makeBlocks(Message);
@@ -86,7 +108,7 @@ public class RSA {
         return SET;
     }
 
-   public String decryption(ArrayList<String> encryptedMessage) {
+    public String decryption(ArrayList<String> encryptedMessage) {
         try {
             StringBuilder tempSb = new StringBuilder();
             for (String anEncryptedMessage : encryptedMessage) {
@@ -104,4 +126,67 @@ public class RSA {
         }
         return SDT;
     }
+
+    /**
+     * Please enter fileName with suffix
+     **/
+
+    public void fileEncryption(File directory, String fileName) throws IOException {
+        if (!directory.isDirectory()) {
+            System.err.println("This is not a directory!");
+            return;
+        }
+        File file = null;
+        File[] files = directory.listFiles();
+        assert files != null;
+        for (File value : files) {
+            if (value.getName().equals(fileName)) {
+                file = value;
+                break;
+            }
+        }
+        String text;
+        assert file != null;
+        if (file.getName().contains(".txt")) {
+            text = readFile(file);
+            writeFile(directory, fileName, listToString(encryption(text)));
+            System.out.println("Your file is encrypted now!\nIt has saved with the same name and suffix");
+            return;
+        }
+        if (file.getName().contains(".bin")) {
+            text = readBinaryFile(file);
+            writeBinaryFile(directory, fileName, listToString(encryption(text)));
+            System.out.println("Your file is encrypted now!\nIt has saved with the same name and suffix");
+        }
+    }
+
+//    public void fileDecryption(File directory, String fileName) throws IOException {
+//        if (!directory.isDirectory()) {
+//            System.err.println("This is not a directory!");
+//            return;
+//        }
+//        File file = null;
+//        File[] files = directory.listFiles();
+//        assert files != null;
+//        for (File value : files) {
+//            if (value.getName().equals(fileName)) {
+//                file = value;
+//                break;
+//            }
+//        }
+//        String encrypted;
+//        ArrayList<String> encryptedList;
+//        assert file != null;
+//        if (file.getName().contains(".txt")) {
+//            encrypted = readFile(file);
+//            encryptedList = stringToList(encrypted);
+//            writeFile(directory, fileName, decryption(encryptedList));
+//            return;
+//        }
+//        if (file.getName().contains(".bin")) {
+//            encrypted = readBinaryFile(file);
+//            encryptedList = stringToList(encrypted);
+//            writeBinaryFile(directory, fileName, decryption(encryptedList));
+//        }
+//    }
 }
