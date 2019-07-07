@@ -22,9 +22,5 @@ public class RSAMain {
 //            System.out.println(d);
 //            System.out.println();
 //        }
-        File path = new File("C:\\Users\\Baha2r\\Desktop\\Texts");
-        File enc = rsa.fileEncryption(path, "1.txt");
-        File dec = rsa.fileDecryption(path, "1.txt");
-        System.out.println(rsa.readFile(dec));
     }
 }
