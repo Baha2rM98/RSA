@@ -7,7 +7,9 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-//Created by Baha2r
+/**
+ * Created by Baha2r
+ **/
 
 public class RSA extends FileManager {
     private static BigInteger n;
@@ -124,7 +126,11 @@ public class RSA extends FileManager {
     }
 
     /**
-     * Please enter fileName with suffix
+     * Returns encrypted file As a File Class, It uses RSA 1024 algorithm.
+     *
+     * @param directory A File that is parent of main text file or binary file.
+     * @param fileName  Name of file that is going to be create. Enter file name with suffix.
+     * @return Encrypted file.
      **/
 
     public File fileEncryption(File directory, String fileName) throws IOException {
@@ -141,22 +147,41 @@ public class RSA extends FileManager {
                 break;
             }
         }
+        if (file == null) {
+            System.err.println("There is no file with this information in this directory!");
+            return null;
+        }
         String text;
-        assert file != null;
         if (file.getName().contains(".txt")) {
             text = readFile(file);
-            System.out.println("Your file is encrypted now!\n\n");
+            if (text.equals("")) {
+                System.err.println("file is empty!");
+                return null;
+            }
             fileName = "Encrypted_" + fileName;
+            System.out.println("Your file is encrypted now!\n");
             return writeFile(directory, fileName, listToString(encryption(text)));
         }
         if (file.getName().contains(".bin")) {
             text = readBinaryFile(file);
+            if (text.equals("")) {
+                System.err.println("file is empty!");
+                return null;
+            }
             fileName = "Encrypted_" + fileName;
-            System.out.println("Your file is encrypted now!\n\n");
+            System.out.println("Your file is encrypted now!\n");
             return writeBinaryFile(directory, fileName, listToString(encryption(text)));
         }
         return null;
     }
+
+    /**
+     * Returns decrypted file As a File Class, It uses RSA 1024 algorithm.
+     *
+     * @param directory A File that is parent of main text file or binary file.
+     * @param fileName  Name of file that is going to be create. Enter file name with suffix.
+     * @return Decrypted file.
+     **/
 
     public File fileDecryption(File directory, String fileName) throws IOException {
         String tempName = fileName;
@@ -165,30 +190,41 @@ public class RSA extends FileManager {
             System.err.println("This is not a directory!");
             return null;
         }
-        File file = null;
+        File encryptedFile = null;
         File[] files = directory.listFiles();
         assert files != null;
         for (File value : files) {
             if (value.getName().equals(fileName)) {
-                file = value;
+                encryptedFile = value;
                 break;
             }
         }
+        if (encryptedFile == null) {
+            System.err.println("There is no file with this information in this directory!");
+            return null;
+        }
         String encrypted;
         ArrayList<String> encryptedList;
-        assert file != null;
-        if (file.getName().contains(".txt")) {
-            encrypted = readFile(file);
+        if (encryptedFile.getName().contains(".txt")) {
+            encrypted = readFile(encryptedFile);
+            if (encrypted.equals("")) {
+                System.err.println("file is empty!");
+                return null;
+            }
             encryptedList = stringToList(encrypted);
             String finalName = "Decrypted_" + tempName;
-            System.out.println("Your file is decrypted now!\n\n");
+            System.out.println("Your file is decrypted now!\n");
             return writeFile(directory, finalName, decryption(encryptedList));
         }
-        if (file.getName().contains(".bin")) {
-            encrypted = readBinaryFile(file);
+        if (encryptedFile.getName().contains(".bin")) {
+            encrypted = readBinaryFile(encryptedFile);
+            if (encrypted.equals("")) {
+                System.err.println("file is empty!");
+                return null;
+            }
             encryptedList = stringToList(encrypted);
             String finalName = "Decrypted_" + tempName;
-            System.out.println("Your file is decrypted now!\n\n");
+            System.out.println("Your file is decrypted now!\n");
             return writeBinaryFile(directory, finalName, decryption(encryptedList));
         }
         return null;

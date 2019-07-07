@@ -8,7 +8,7 @@ abstract class FileManager {
     FileManager() {
     }
 
-    public File makeFile(File directory, String fileName) throws IOException {
+    private File makeFile(File directory, String fileName) throws IOException {
         if (!directory.isDirectory()) {
             System.err.println("This is not a directory!");
             return null;
@@ -16,8 +16,6 @@ abstract class FileManager {
         if (!directory.exists()) {
             directory.mkdirs();
         }
-//        String TXTPostFix = ".txt";
-//        fileName = "Encrypted _ " + fileName;
         File file = new File(directory, fileName);
         if (!file.exists()) {
             file.createNewFile();
@@ -25,7 +23,7 @@ abstract class FileManager {
         return file;
     }
 
-    public File makeBinaryFile(File directory, String fileName) throws IOException {
+    private File makeBinaryFile(File directory, String fileName) throws IOException {
         if (!directory.isDirectory()) {
             System.err.println("This is not a directory!");
             return null;
@@ -33,8 +31,6 @@ abstract class FileManager {
         if (!directory.exists()) {
             directory.mkdirs();
         }
-//        String binaryPostFix = ".bin";
-//        fileName = "Encrypted _ " + fileName;
         File file = new File(directory, fileName);
         if (!file.exists()) {
             file.createNewFile();
