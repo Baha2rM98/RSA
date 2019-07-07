@@ -8,7 +8,7 @@ abstract class FileManager {
     FileManager() {
     }
 
-    private File makeFile(File directory, String fileName) throws IOException {
+    public File makeFile(File directory, String fileName) throws IOException {
         if (!directory.isDirectory()) {
             System.err.println("This is not a directory!");
             return null;
@@ -25,7 +25,7 @@ abstract class FileManager {
         return file;
     }
 
-    private File makeBinaryFile(File directory, String fileName) throws IOException {
+    public File makeBinaryFile(File directory, String fileName) throws IOException {
         if (!directory.isDirectory()) {
             System.err.println("This is not a directory!");
             return null;

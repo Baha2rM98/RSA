@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 //Created by Baha2r
 
@@ -76,15 +77,10 @@ public class RSA extends FileManager {
         return builder.toString();
     }
 
-//    private ArrayList<String> stringToList(String text) {
-//        ArrayList<String> encrypted = new ArrayList<>();
-//        String[] strings = new String[text.length()];
-//        for (int i = 0; i < text.length(); i++) {
-//            strings = text.split(", ");
-//        }
-//        Collections.addAll(encrypted, strings);
-//        return encrypted;
-//    }
+    private ArrayList<String> stringToList(String text) {
+        String[] strings = text.split(", ");
+        return new ArrayList<>(Arrays.asList(strings));
+    }
 
     public ArrayList<String> encryption(String Message) {
         try {
@@ -131,10 +127,10 @@ public class RSA extends FileManager {
      * Please enter fileName with suffix
      **/
 
-    public void fileEncryption(File directory, String fileName) throws IOException {
+    public File fileEncryption(File directory, String fileName) throws IOException {
         if (!directory.isDirectory()) {
             System.err.println("This is not a directory!");
-            return;
+            return null;
         }
         File file = null;
         File[] files = directory.listFiles();
@@ -149,44 +145,46 @@ public class RSA extends FileManager {
         assert file != null;
         if (file.getName().contains(".txt")) {
             text = readFile(file);
-            writeFile(directory, fileName, listToString(encryption(text)));
             System.out.println("Your file is encrypted now!\nIt has saved with the same name and suffix");
-            return;
+            return writeFile(directory, fileName, listToString(encryption(text)));
         }
         if (file.getName().contains(".bin")) {
             text = readBinaryFile(file);
-            writeBinaryFile(directory, fileName, listToString(encryption(text)));
             System.out.println("Your file is encrypted now!\nIt has saved with the same name and suffix");
+            return writeBinaryFile(directory, fileName, listToString(encryption(text)));
         }
+        return null;
     }
 
-//    public void fileDecryption(File directory, String fileName) throws IOException {
-//        if (!directory.isDirectory()) {
-//            System.err.println("This is not a directory!");
-//            return;
-//        }
-//        File file = null;
-//        File[] files = directory.listFiles();
-//        assert files != null;
-//        for (File value : files) {
-//            if (value.getName().equals(fileName)) {
-//                file = value;
-//                break;
-//            }
-//        }
-//        String encrypted;
-//        ArrayList<String> encryptedList;
-//        assert file != null;
-//        if (file.getName().contains(".txt")) {
-//            encrypted = readFile(file);
-//            encryptedList = stringToList(encrypted);
-//            writeFile(directory, fileName, decryption(encryptedList));
-//            return;
-//        }
-//        if (file.getName().contains(".bin")) {
-//            encrypted = readBinaryFile(file);
-//            encryptedList = stringToList(encrypted);
-//            writeBinaryFile(directory, fileName, decryption(encryptedList));
-//        }
-//    }
+    public File fileDecryption(File directory, String fileName) throws IOException {
+        if (!directory.isDirectory()) {
+            System.err.println("This is not a directory!");
+            return null;
+        }
+        File file = null;
+        File[] files = directory.listFiles();
+        assert files != null;
+        for (File value : files) {
+            if (value.getName().equals(fileName)) {
+                file = value;
+                break;
+            }
+        }
+        String encrypted;
+        ArrayList<String> encryptedList;
+        assert file != null;
+        if (file.getName().contains(".txt")) {
+            encrypted = readFile(file);
+            encryptedList = stringToList(encrypted);
+            System.out.println("Your file is decrypted now!\nIt has saved with the same name and suffix");
+            return writeFile(directory, fileName, decryption(encryptedList));
+        }
+        if (file.getName().contains(".bin")) {
+            encrypted = readBinaryFile(file);
+            encryptedList = stringToList(encrypted);
+            System.out.println("Your file is decrypted now!\nIt has saved with the same name and suffix");
+            return writeBinaryFile(directory, fileName, decryption(encryptedList));
+        }
+        return null;
+    }
 }
