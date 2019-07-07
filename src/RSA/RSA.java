@@ -127,7 +127,6 @@ public class RSA extends FileManager {
 
     /**
      * Returns encrypted file As a File Class, It uses RSA 1024 algorithm.
-     *
      * @param directory A File that is parent of main text file or binary file.
      * @param fileName  Name of file that is going to be create. Enter file name with suffix.
      * @return Encrypted file.
@@ -177,7 +176,6 @@ public class RSA extends FileManager {
 
     /**
      * Returns decrypted file As a File Class, It uses RSA 1024 algorithm.
-     *
      * @param directory A File that is parent of main text file or binary file.
      * @param fileName  Name of file that is going to be create. Enter file name with suffix.
      * @return Decrypted file.
