@@ -1,11 +1,11 @@
-package RSA;
+package fileManager;
 
 import java.io.*;
 import java.util.Scanner;
 
-abstract class FileManager {
+public abstract class FileManager {
 
-    FileManager() {
+    public FileManager() {
     }
 
     private File makeFile(File directory, String fileName) throws IOException {
