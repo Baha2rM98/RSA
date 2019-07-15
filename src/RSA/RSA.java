@@ -160,7 +160,10 @@ public class RSA extends FileManager {
             }
             fileName = "Encrypted_" + fileName;
             System.out.println("Your file is encrypted now!\n");
-            return writeFile(directory, fileName, listToString(encryption(text)));
+            File EF = writeBinaryFile(directory, fileName, listToString(encryption(text)));
+//            EF.setReadable(false, true);
+            EF.setReadOnly();
+            return EF;
         }
         if (file.getName().contains(".bin")) {
             text = readBinaryFile(file);
