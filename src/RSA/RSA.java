@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by Baha2r
+ * @author Baha2r
  **/
 
 public class RSA extends FileManager {
@@ -127,6 +127,7 @@ public class RSA extends FileManager {
 
     /**
      * Returns encrypted file As a File Class, It uses RSA 1024 algorithm.
+     *
      * @param directory A File that is parent of main text file or binary file.
      * @param fileName  Name of file that is going to be create. Enter file name with suffix.
      * @return Encrypted file.
@@ -169,13 +170,17 @@ public class RSA extends FileManager {
             }
             fileName = "Encrypted_" + fileName;
             System.out.println("Your file is encrypted now!\n");
-            return writeBinaryFile(directory, fileName, listToString(encryption(text)));
+            File EF = writeBinaryFile(directory, fileName, listToString(encryption(text)));
+//            EF.setReadable(false, true);
+            EF.setReadOnly();
+            return EF;
         }
         return null;
     }
 
     /**
      * Returns decrypted file As a File Class, It uses RSA 1024 algorithm.
+     *
      * @param directory A File that is parent of main text file or binary file.
      * @param fileName  Name of file that is going to be create. Enter file name with suffix.
      * @return Decrypted file.
